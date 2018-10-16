@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>同页面消息传送（无格式问题）</title>
+    <title>request.getParameterValues()的使用</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -21,25 +21,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	-->
 
   </head>
-  <!-- 此种方法无乱码问题 -->
+  
   <body>
-    <form method="post">
-    	文本1：<input type="text" name="text1"/><br/>
-    	文本2：<input type="text" name="text2"/><br/>
-    	文本3：<input type="text" name="text3"/><br/>
-    	文本4：<input type="text" name="text4"/><br/>
+    <p>这是食品柜台，请选择您要购买的食品：</p>
+    <form action="" method="post" name="forml">
+    	<input type="checkbox" name="choice" value="香肠"/>香肠
+    	<input type="checkbox" name="choice" value="热狗"/>热狗
+    	<input type="checkbox" name="choice" value="烤鸭"/>烤鸭
+    	<input type="checkbox" name="choice" value="酸奶"/>酸奶
+    	<br>
     	<input type="submit" value="提交"/>
     </form>
     <%
-    	Enumeration pNames = request.getParameterNames();
-    	while(pNames.hasMoreElements()){
-    		String pName = (String)pNames.nextElement();
-    		String pValue = request.getParameter(pName);
-    		if(pValue.contains("%"))
-    		{
-    			out.print("请求包含非法字符！");
-    			break;
-    		}
+    	request.setCharacterEncoding("utf-8");
+    	String food[]=request.getParameterValues("choice");
+    	if(food != null)
+    	{
+    		for(int i = 0;i < food.length;i ++)
+    			out.print(food[i]);
     	}
      %>
   </body>

@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>同页面消息传送（无格式问题）</title>
+    <title>跨页面消息传送（有乱码问题）</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -21,26 +21,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	-->
 
   </head>
-  <!-- 此种方法无乱码问题 -->
+  
   <body>
-    <form method="post">
-    	文本1：<input type="text" name="text1"/><br/>
-    	文本2：<input type="text" name="text2"/><br/>
-    	文本3：<input type="text" name="text3"/><br/>
-    	文本4：<input type="text" name="text4"/><br/>
-    	<input type="submit" value="提交"/>
+  	<!-- 提交给getParameter会乱码，getParameter1解决乱码问题 -->
+    <form action="getParameter1.jsp" method="post">
+    	<table>
+	    	<tr>
+	    		<td>姓名</td>
+	    		<td><input type="text" name = "name" value=""/></td>
+	    	</tr>
+	    	<tr>
+	    		<td>城市</td>
+	    		<td><input type="text" name="city" value=""/></td>
+	    	</tr>
+	    	<tr>
+	    		<td><input type="submit" value="提交"/></td>
+	    		<td><input type="reset" value="重置"/></td>
+	    	</tr>
+    	</table>
     </form>
-    <%
-    	Enumeration pNames = request.getParameterNames();
-    	while(pNames.hasMoreElements()){
-    		String pName = (String)pNames.nextElement();
-    		String pValue = request.getParameter(pName);
-    		if(pValue.contains("%"))
-    		{
-    			out.print("请求包含非法字符！");
-    			break;
-    		}
-    	}
-     %>
   </body>
 </html>

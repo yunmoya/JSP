@@ -9,8 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>同页面消息传送（无格式问题）</title>
-    
+    <title>My JSP 'getParameter.jsp' starting page</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -19,28 +18,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-
   </head>
-  <!-- 此种方法无乱码问题 -->
+  
   <body>
-    <form method="post">
-    	文本1：<input type="text" name="text1"/><br/>
-    	文本2：<input type="text" name="text2"/><br/>
-    	文本3：<input type="text" name="text3"/><br/>
-    	文本4：<input type="text" name="text4"/><br/>
-    	<input type="submit" value="提交"/>
-    </form>
     <%
-    	Enumeration pNames = request.getParameterNames();
-    	while(pNames.hasMoreElements()){
-    		String pName = (String)pNames.nextElement();
-    		String pValue = request.getParameter(pName);
-    		if(pValue.contains("%"))
-    		{
-    			out.print("请求包含非法字符！");
-    			break;
-    		}
+    	/*解决乱码问题法1*/
+    	/*request.setCharacterEncoding("utf-8");//解决乱码问题法1
+    	String name = request.getParameter("name");
+    	String city = request.getParameter("city");*/
+    	/*解决乱码问题2*/
+    	String name = new String(request.getParameter("name").getBytes("ISO-8859-1"),"utf-8");
+    	String city = new String(request.getParameter("city").getBytes("ISO-8859-1"),"utf-8");
+    	if(name != null && city != null)
+    	{
+    %>
+    		<p>Welcome <%=name %>,您所在的城市是<%=city %></p>
+    <%	
+    	}else
+    	{
+    %>
+    		<p>欢迎访问本界面！</p>	
+    <% 
     	}
+    	
      %>
   </body>
 </html>
